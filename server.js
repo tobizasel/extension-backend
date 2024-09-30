@@ -1,42 +1,40 @@
-const express = require("express")
+const express = require("express");
 const app = express();
 const cors = require('cors');
+const axios = require("axios");
 
+app.use(cors());
 
-app.use(cors())
+app.get("/api", (req, res) => {
+  const tweet = "RECORD DE PETROLEO\nEl petroleo paso a ser el 3er producto mas exportado de Argentina, despues de la soja y el maíz. La produccion alcanzo un RECORD y volvio a niveles historicos del 2004";
+  
+  palabrasClaves(tweet)
+    .then(data => {
+      console.log(data.response);
+      res.json({ resultado: data.response });
+    })
+    .catch(error => {
+      console.error(error);
+      res.status(500).json({ error: "Error al procesar la solicitud" });
+    });
+});
 
-app.get("/api", (req,res) => {
-    llamarChatGpt();
-})
+const palabrasClaves = (tweet) => {
+  return axios.post("http://localhost:11434/api/generate", {
+    "model": "llama3.2",
+    "prompt": "Te voy a mandar una noticia esparcida por redes sociales. tu rol como modelo de lenguaje es crear una busqueda de google con el que puede conseguir informacion sobre esta noticia. Responde con una sola busqueda posible\n\n" + tweet,
+    "stream": false
+  })
+  .then(res => {
+    console.log("holaaa");
+    return res.data; // Devuelve los datos de la respuesta
+  })
+  .catch(error => {
+    console.error("Error en la llamada a la API externa:", error);
+    throw new Error("Error en la llamada a la API externa"); // Lanza el error para ser manejado en el manejador de la ruta
+  });
+};
 
-const llamarChatGpt = async () => {
-
-    const API_KEY = "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"
-    const prompt = "necesito que extraigas de este tweet una posible busqueda en google para verificar la veracidad de la noticia\nSE VIENE EL MILAGRO ECONOMICO ARGENTINO\nSalio medicion trimestral de pobreza realizada por la UCA y dio que en el primer trimestre llego a 54.8% (por culpa del massazo, miren la pendiente alcista que dibujan los trimestres anteriores) y en el segundo trimestre bajo casi 4 puntos: 51%"
-    
-
-    const response = await fetch(`https://api.openai.com/v1/chat/completions`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: "gpt-3.5-turbo",
-          messages: [
-            {"role": "user", "content": prompt}
-          ],
-          prompt: prompt,
-          max_tokens: 20,
-        }),
-      });
-
-      const data = await response.json()
-      return data
-
-}
-
-
-
-
-app.listen(5000, () => {console.log("se prendio en el 5000")})
+app.listen(5000, () => {
+  console.log("se prendio en el 5000");
+});
