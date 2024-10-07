@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import axios from "axios";
 import buscar from "./scripts/busqueda.js";
+import { Ollama } from "ollama";
 
 const app = express();
 
@@ -12,9 +13,8 @@ app.get("/api", (req, res) => {
   
   palabrasClaves(tweet)
     .then(data => {
-      console.log(data.response);
-      const paginas = buscar("Milei anuncia inflación cero en septiembre"); // Asegúrate de que buscar devuelva una promesa
-      console.log("17", data.response);
+      console.log("16", data.response);
+      const paginas = buscar(data.response); // Asegúrate de que buscar devuelva una promesa
       return paginas;
     })
     .then(paginas => {
@@ -28,9 +28,13 @@ app.get("/api", (req, res) => {
 });
 
 const palabrasClaves = (tweet) => {
+
+  const prompt = "Extrae las palabras clave del siguiente texto, enfocándote en nombres de personas, lugares, eventos, fechas, y términos importantes relacionados con hechos verificables. Las palabras clave deben ser aquellas que permitan realizar una búsqueda en Google para comprobar la veracidad del texto. Asegúrate de incluir solo los términos más relevantes y no incluir palabras comunes o irrelevantes. Unicamente responde con las palabras claves extraidas del tweet y convertilas en una oracion que represente al twit. No respondas nada mas que esa unica oracion\n" + tweet;
+
+
   return axios.post("http://localhost:11434/api/generate", {
-    "model": "llama3.2",
-    "prompt": "Te voy a mandar una noticia esparcida por redes sociales. tu rol como modelo de lenguaje es crear una busqueda de google con el que puede conseguir informacion sobre esta noticia.Toma en cuenta que la mayoria son de Argentina y actuales. La respuesta debe estar conformada UNICAMENTE CON LA BUSQUEDA DE GOOGLE. Tiene que ser una sola busqueda posible\n\n" + tweet,
+    "model": "gemma2:2b",
+    "prompt": prompt,
     "stream": false
   })
   .then(res => {

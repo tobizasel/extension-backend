@@ -3,7 +3,6 @@ import https from "https";
 
 const buscar = (query) => {
     console.log("llego", query);
-
     let data = JSON.stringify({
         "q": query,
         "gl": "ar",
@@ -26,8 +25,8 @@ const buscar = (query) => {
 
     return axios(config) // Asegúrate de devolver la promesa
         .then((response) => {
-            console.log("30 BUSQUEDA",response);
-            return JSON.stringify(response.data.organic); // Devuelve la respuesta
+            console.log("30 BUSQUEDA",response.data);
+            return JSON.stringify(response.data); // Devuelve la respuesta
         })
         .catch((error) => {
             console.log(error);
