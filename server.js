@@ -14,8 +14,8 @@ app.get("/api", (req, res) => {
   palabrasClaves(tweet)
     .then(data => {
       console.log("16", data.response);
-      const paginas = buscar(data.response); // Asegúrate de que buscar devuelva una promesa
-      return paginas;
+      // const paginas = buscar(data.response); // Asegúrate de que buscar devuelva una promesa
+      return "paginas";
     })
     .then(paginas => {
       console.log("21", paginas);
