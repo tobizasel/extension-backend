@@ -25,7 +25,6 @@ const buscar = (query) => {
 
     return axios(config) // Asegúrate de devolver la promesa
         .then((response) => {
-            console.log("30 BUSQUEDA",response.data);
             return JSON.stringify(response.data); // Devuelve la respuesta
         })
         .catch((error) => {
