@@ -10,7 +10,7 @@ app.use(cors());
 
 app.get("/api", (req, res) => {
 
-
+  console.log(req.query.tweet);
   const tweetRecibido = req.query.tweet;
   const idTweetRecibido = req.query.id;
 
