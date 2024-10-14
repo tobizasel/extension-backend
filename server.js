@@ -17,10 +17,11 @@ app.get("/api", (req, res) => {
   const tweet = "Caputo regalara autos 0km a todo el conurbano";
   var tweetParseado = ""
 
-  palabrasClaves(tweet)
+  palabrasClaves(tweetRecibido)
   .then(data => {
     // Llama a 'buscar' y maneja la promesa correctamente
     tweetParseado = data.response
+    console.log("BUSQUEDA EN GOOGLE",data.response);
     return buscar(data.response);
   })
   .then(paginas => {
@@ -28,7 +29,7 @@ app.get("/api", (req, res) => {
     return verificar(tweetParseado, JSON.parse(paginas));
   })
   .then(veredicto => {
-    console.log("Veredicto:", veredicto);
+    console.log("Veredicto:", veredicto.response);
     // Enviar el veredicto como respuesta final
     res.json({ resultado: veredicto.response });
   })
