@@ -14,10 +14,10 @@ app.get("/api", (req, res) => {
   const tweetRecibido = req.query.tweet;
   const idTweetRecibido = req.query.id;
 
-  const tweet = "MILEI SOS UN SIGMA\nLa inflacion de septiembre es de 0%";
+  const tweet = "Caputo regalara autos 0km a todo el conurbano";
   var tweetParseado = ""
 
-  palabrasClaves(tweetRecibido)
+  palabrasClaves(tweet)
   .then(data => {
     // Llama a 'buscar' y maneja la promesa correctamente
     tweetParseado = data.response
@@ -25,13 +25,12 @@ app.get("/api", (req, res) => {
   })
   .then(paginas => {
     // Llama a 'verificar' con las páginas obtenidas y el resultado de palabrasClaves
-    console.log(paginas.searchParameters);
-    return verificar(tweetParseado, paginas);
+    return verificar(tweetParseado, JSON.parse(paginas));
   })
   .then(veredicto => {
     console.log("Veredicto:", veredicto);
     // Enviar el veredicto como respuesta final
-    res.json({ resultado: veredicto });
+    res.json({ resultado: veredicto.response });
   })
   .catch(error => {
     console.error("Error:", error);
