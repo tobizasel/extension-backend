@@ -9,10 +9,15 @@ const app = express();
 app.use(cors());
 
 app.get("/api", (req, res) => {
+
+
+  const tweetRecibido = req.query.tweet;
+  const idTweetRecibido = req.query.id;
+
   const tweet = "MILEI SOS UN SIGMA\nLa inflacion de septiembre es de 0%";
   var tweetParseado = ""
 
-  palabrasClaves(tweet)
+  palabrasClaves(tweetRecibido)
   .then(data => {
     // Llama a 'buscar' y maneja la promesa correctamente
     tweetParseado = data.response
@@ -40,7 +45,7 @@ const palabrasClaves = (tweet) => {
 
 
   return axios.post("http://localhost:11434/api/generate", {
-    "model": "gemma2",
+    "model": "gemma2:2b",
     "prompt": prompt,
     "stream": false
   })
