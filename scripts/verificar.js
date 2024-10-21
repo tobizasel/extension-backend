@@ -3,12 +3,18 @@ import axios from "axios";
 const verificar = (afirmacion, paginas) => {
   // Convierte el string en un objeto JSON
 
-  console.log("AFIRMACION: " + afirmacion);
-
+  console.log("6VERIFICAR: AFIRMACION: " + afirmacion);
   // Genera el contenido de las páginas para el prompt
+
+
   const paginasText = paginas.organic.map(pagina => {
-    console.log("AAAAAAAA", pagina);
-    return `Titulo: ${pagina.title}. Descripcion: ${pagina.snippet}. `;
+    
+    if (pagina.position <= 5) {
+      console.log("PAGINAS ", pagina.title);
+      return `Titulo: ${pagina.title}. Descripcion: ${pagina.snippet}. `;
+    } else{
+      return ""
+    }
   }).join('\n');
 
   // Crea el prompt con la información
@@ -23,7 +29,6 @@ const verificar = (afirmacion, paginas) => {
     "stream": false
   })
   .then(res => {
-    console.log("Respuesta recibida de la API:");
     return res.data; // Devuelve los datos de la respuesta
   })
   .catch(error => {

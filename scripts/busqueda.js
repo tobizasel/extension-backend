@@ -2,7 +2,7 @@ import axios from "axios";
 import https from "https";
 
 const buscar = (query) => {
-    console.log("llego", query);
+    console.log("5BUSQUEDA: ", query);
     let data = JSON.stringify({
         "q": query,
         "gl": "ar",
