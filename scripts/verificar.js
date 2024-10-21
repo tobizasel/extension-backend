@@ -24,7 +24,7 @@ const verificar = (afirmacion, paginas) => {
 
   // Llamada a la API
   return axios.post("http://localhost:11434/api/generate", {
-    "model": "gemma2:2b",
+    "model": "gemma2",
     "prompt": prompt,
     "stream": false
   })

@@ -31,7 +31,7 @@ app.get("/api", (req, res) => {
   .then(veredicto => {
     console.log("32SERVER: Veredicto:", veredicto.response);
     // Enviar el veredicto como respuesta final
-    res.json({ resultado: veredicto.response, tweet: tweetRecibido });
+    res.json({ resultado: veredicto.response, tweet: tweetRecibido, id: idTweetRecibido });
   })
   .catch(error => {
     console.error("Error:", error);
@@ -45,7 +45,7 @@ const palabrasClaves = (tweet) => {
 
 
   return axios.post("http://localhost:11434/api/generate", {
-    "model": "gemma2:2b",
+    "model": "gemma2",
     "prompt": prompt,
     "stream": false
   })
