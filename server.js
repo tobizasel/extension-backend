@@ -3,6 +3,7 @@ import cors from "cors";
 import axios from "axios";
 import buscar from "./scripts/busqueda.js";
 import verificar from "./scripts/verificar.js"
+// import { insertTweet } from "./scripts/supabase.js";
 
 const app = express();
 
@@ -13,8 +14,8 @@ app.get("/api", (req, res) => {
   console.log("13SERVER: ",req.query.tweet);
   const tweetRecibido = req.query.tweet;
   const idTweetRecibido = req.query.id;
+  const autorRecibido = req.query.autor
 
-  const tweet = "Caputo regalara autos 0km a todo el conurbano";
   var tweetParseado = ""
 
   palabrasClaves(tweetRecibido)
@@ -33,6 +34,9 @@ app.get("/api", (req, res) => {
     // Enviar el veredicto como respuesta final
     res.json({ resultado: veredicto.response, tweet: tweetRecibido, id: idTweetRecibido });
   })
+  // .then(respuesta => {
+  //   insertTweet(tweetRecibido, idTweetRecibido, autorRecibido, respuesta.resultado)
+  // })
   .catch(error => {
     console.error("Error:", error);
     res.status(500).json({ error: "Error al procesar la solicitud" });
@@ -45,7 +49,7 @@ const palabrasClaves = (tweet) => {
 
 
   return axios.post("http://localhost:11434/api/generate", {
-    "model": "gemma2",
+    "model": "gemma2:2b",
     "prompt": prompt,
     "stream": false
   })
