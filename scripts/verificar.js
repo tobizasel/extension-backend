@@ -6,6 +6,8 @@ const verificar = (afirmacion, paginas) => {
   console.log("6VERIFICAR: AFIRMACION: " + afirmacion);
   // Genera el contenido de las páginas para el prompt
 
+  console.log("9VERIFICAR: PAGINAS ", paginas);
+
 
   const paginasText = paginas.organic.map(pagina => {
     

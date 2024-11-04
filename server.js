@@ -17,6 +17,7 @@ app.get("/api", (req, res) => {
   const autorRecibido = req.query.autor
 
   var tweetParseado = ""
+  console.log(req.query.tweet, req.query.id, req.query.autor);
 
   palabrasClaves(tweetRecibido)
   .then(data => {
@@ -26,7 +27,7 @@ app.get("/api", (req, res) => {
     return buscar(data.response);
   })
   .then(paginas => {
-    // Llama a 'verificar' con las páginas obtenidas y el resultado de palabrasClaves
+    console.log("29 PÄGINAS:", paginas);
     return verificar(tweetParseado, JSON.parse(paginas));
   })
   .then(veredicto => {
@@ -45,11 +46,11 @@ app.get("/api", (req, res) => {
 
 const palabrasClaves = (tweet) => {
 
-  const prompt = "Extrae las palabras clave del siguiente texto, enfocándote en nombres de personas, lugares, eventos, fechas, y términos importantes relacionados con hechos verificables. Las palabras clave deben ser aquellas que permitan realizar una búsqueda en Google para comprobar la veracidad del texto. Asegúrate de incluir solo los términos más relevantes y no incluir palabras comunes o irrelevantes. Unicamente responde con las palabras claves extraidas del tweet y convertilas en una oracion que represente al twit. NO RESPONDAS MAS QUE LA UNICA ORACION. SI NO TIENE PALABRAS CLAVE DEVOLVE SOLO EL TEXTO DEL TWIT ORIGINAL\n" + tweet;
+  const prompt = "Extrae las palabras clave del siguiente texto y con ellas forma una oracion que permita su busqueda en google, enfocándote en nombres de personas, lugares, eventos, fechas, y términos importantes relacionados con hechos verificables. Las palabras clave deben ser aquellas que permitan realizar una búsqueda en Google para comprobar la veracidad del texto. Asegúrate de incluir solo los términos más relevantes y no incluir palabras comunes o irrelevantes. Unicamente responde con las palabras claves extraidas del tweet y convertilas en una unica oracion que permita buscarla en google. NO RESPONDAS MAS QUE LA UNICA ORACION. SI NO TIENE PALABRAS CLAVE DEVOLVE SOLO EL TEXTO DEL TWEET ORIGINAL\n" + tweet;
 
 
   return axios.post("http://localhost:11434/api/generate", {
-    "model": "gemma2:2b",
+    "model": "gemma2",
     "prompt": prompt,
     "stream": false
   })
