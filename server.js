@@ -46,8 +46,7 @@ app.get("/api", (req, res) => {
 
 const palabrasClaves = (tweet) => {
 
-  const prompt = "Extrae las palabras clave del siguiente texto y con ellas forma una oracion que permita su busqueda en google, enfocándote en nombres de personas, lugares, eventos, fechas, y términos importantes relacionados con hechos verificables. Las palabras clave deben ser aquellas que permitan realizar una búsqueda en Google para comprobar la veracidad del texto. Asegúrate de incluir solo los términos más relevantes. Unicamente responde con las palabras claves extraidas del tweet y convertilas en una unica oracion que permita buscarla en google. NO RESPONDAS MAS QUE CON LA UNICA ORACION. SI NO TIENE PALABRAS CLAVE DEVOLVE SOLO EL TEXTO DEL TWEET ORIGINAL\n" + tweet;
-
+  const prompt = "Forma una oracion coherente que resuma lo que quiere decir el tweet en pocas palabras. Las palabras clave deben ser aquellas que permitan realizar una búsqueda en Google para comprobar la veracidad del texto. Asegúrate de incluir solo los términos más relevantes. Unicamente responde con las palabras claves extraidas del tweet y convertilas en una unica oracion que permita buscarla en google. NO RESPONDAS MAS QUE CON LA UNICA ORACION. SI NO TIENE PALABRAS CLAVE DEVOLVE SOLO EL TEXTO DEL TWEET ORIGINAL\n" + tweet;
 
   return axios.post("http://localhost:11434/api/generate", {
     "model": "gemma2",

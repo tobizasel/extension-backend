@@ -29,12 +29,10 @@ const verificar = (afirmacion, paginas) => {
 
   
   const paginasFiltradas = filtrarPaginas(paginas.organic)
-  console.log("9VERIFICAR: PAGINAS ", paginasFiltradas);
   
   const paginasText = paginasFiltradas.map(pagina => {
     
     if (pagina.position <= 5) {
-      console.log("PAGINAS ", pagina.title);
       return `Titulo: ${pagina.title}. Descripcion: ${pagina.snippet}. `;
     } else{
       return ""
@@ -62,12 +60,22 @@ const verificar = (afirmacion, paginas) => {
 };
 
 const filtrarPaginas = (paginas) => {
-  const paginasSinX = paginas.filter(pagina => !pagina.link.includes("x.com" || "instagram.com" || "twitter.com"))
+
+  console.log(paginas);
+
+  const paginasSinX = paginas.filter(pagina => 
+    !pagina.link.includes("x.com") && 
+    !pagina.link.includes("instagram.com") && 
+    !pagina.link.includes("twitter.com")
+  );
+  
   
   const paginasReordenadas = [
     ...paginasSinX.filter(pagina => diarios.includes(pagina.link)), // Páginas que están en el array de diarios
     ...paginasSinX.filter(pagina => !diarios.includes(pagina.link)) // Páginas que no están en el array de diarios
   ];
+
+  console.log("ORDENADAS",paginasReordenadas);
 
   return paginasReordenadas
 }
